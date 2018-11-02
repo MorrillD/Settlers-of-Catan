@@ -1,7 +1,7 @@
+from main import *
 import pygame
 import time
 import random
-from main import *
 
 
 def roll_dice(screen):

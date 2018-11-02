@@ -2,10 +2,10 @@ from boardFuncs import *
 from setUpFuncs import *
 from turnFuncs import *
 import numpy
+import pygame
 import sys
 import webbrowser
 import random
-
 
 
 random.seed(1)
@@ -34,6 +34,7 @@ def main_menu(screen):
 
     pygame.display.update()
 
+    # waits for player to hit start game
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -44,7 +45,7 @@ def main_menu(screen):
 
                 # start game
                 if 917 <= posx <= 917+250 and 450 <= posy <= 450+40:
-                    return True
+                    return
                 # rules button
                 elif 917 <= posx <= 917+250 and 350 <= posy <= 350+40:
                     webbrowser.open("http://www.ultracatan.com/game-rules.php")
@@ -70,22 +71,24 @@ if __name__ == "__main__":
     # define basic attributes
     theBoard = numpy.zeros((ROWS, COLUMNS))
     build_board(theBoard)
-    game_over = False
-    turn = True
-    players = 2
 
     # basic pygame modules
     print_board(theBoard)
     pygame.init()
     screen = pygame.display.set_mode(SCREEN_SIZE)
 
-    # start game has been clicked
-    # start_game = main_menu(screen)
+    # displays start menu
+    main_menu(screen)
+    screen.fill(BLUE)
 
     # basic displays
-    draw_board(screen)
-    #setUpSettlement(turn, theBoard, screen)
-    draw_items(screen)
+    draw_board(screen, theBoard)
 
+    # player 1
+    turn = True
+
+    game_over = False
+    # game loop
     while not game_over:
-        timeToRoll(screen)
+        placeRoad(turn, theBoard, screen)
+        turn = not turn
