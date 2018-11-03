@@ -163,10 +163,13 @@ def draw_board(screen, board):
 
     for r in range(ROWS):
         for c in range(COLUMNS):
-            if board[r][c] == R_SETTLEMENT:
+            # draws settlements on screen
+            if board[r][c] == R_SETTLEMENT or board[r][c] == R_ROAD:
                 pygame.draw.polygon(screen, RED, get_rs_coordinates(r, c))
+
             elif board[r][c] == B_SETTLEMENT:
                 pygame.draw.polygon(screen, DARK_BLUE, get_rs_coordinates(r, c))
+
 
     pygame.display.update()
 
@@ -521,7 +524,8 @@ def get_rs_coordinates(r, c):
 
     # road
     if r == 1:
-        pass
+        if c == 5:
+            return [(213, 134), (213, 129), (245, 110), (245, 115)]
 
     # settlement
     if r == 2:

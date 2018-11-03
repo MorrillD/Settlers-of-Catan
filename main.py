@@ -90,5 +90,5 @@ if __name__ == "__main__":
     game_over = False
     # game loop
     while not game_over:
+        setUpSettlement(turn, theBoard, screen)
         placeRoad(turn, theBoard, screen)
-        turn = not turn

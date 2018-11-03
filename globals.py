@@ -10,6 +10,8 @@ BLACK = (0, 0, 0)
 TAN = (255, 225, 180)
 GRAY = (200, 200, 200)
 BLUE = (50, 162, 200)
+DARK_BLUE = (0, 0, 255)
+RED = (255, 0, 0)
 
 # empty spaces
 EMPTY_SETTLEMENT = .01
@@ -24,15 +26,5 @@ R_CITY = 0.13
 B_SETTLEMENT = 0.21
 B_ROAD = 0.22
 B_CITY = 0.23
-
-# White pieces
-W_SETTLEMENT = 0.31
-W_ROAD = 0.32
-W_CITY = 0.33
-
-# Orange pieces
-O_SETTLEMENT = 0.40
-O_ROAD = 0.41
-O_CITY = 0.42
 
 ROBBER = 0.5

@@ -3,6 +3,7 @@ import pygame
 
 
 # player places first two settlements
+# never used after the game is set up
 def setUpSettlement(turn, board, screen):
     myfont = pygame.font.SysFont("monospace", 20, True)
 
@@ -138,18 +139,160 @@ def placeRoad(turn, board, screen):
                 row, col = get_road_pos(posx, posy)
 
                 if row != 0 or col != 0:
-                    # check if connected to settlement
-                    if turn:
-                        board[row][col] = R_ROAD
-                    else:
-                        board[row][col] = B_ROAD
-                    placed = True
+                    # check if connected to settlement or road
+                    if isNearSR(board, row, col, turn):
+                        if turn:
+                            board[row][col] = R_ROAD
+                        else:
+                            board[row][col] = B_ROAD
+                        placed = True
 
-    # erases text prompt
+    # blit
     screen.fill(BLUE)
     draw_board(screen, board)
     pygame.display.update()
     print_board(board)
+
+
+# returns true if road trying to be placed is "connected" to settlement, city, or road
+def isNearSR(board, r, c, turn):
+    if turn:
+        # check above for settlement
+        if board[r - 1][c] == R_SETTLEMENT or board[r - 1][c] == R_CITY:
+            return True
+
+        # check below for settlement
+        elif board[r + 1][c] == R_SETTLEMENT or board[r + 1][c] == R_CITY:
+            return True
+
+        # check left for settlement and road
+        # column 0 will go out of bounds
+        if c != 0:
+            # check upper left for settlement
+            if board[r - 1][c - 1] == R_SETTLEMENT or board[r - 1][c - 1] == R_CITY:
+                return True
+
+            # check lower left for settlement
+            if board[r + 1][c - 1] == R_SETTLEMENT or board[r + 1][c - 1] == R_CITY:
+                return True
+
+            # check up and left for road
+            # row 1 will go out of bounds
+            if r != 1:
+                if board[r + 2][c - 1] == R_ROAD:
+                    return True
+
+            # check down and left for road
+            # row 21 will go out of bounds
+            if r != 21:
+                if board[r - 2][c - 1] == R_ROAD:
+                    return True
+
+            # check left for road
+            # column 1 will go out of bounds
+            if c != 1:
+                if board[r][c - 2] == R_ROAD:
+                    return True
+
+        # check right for roads and settlements
+        # column 20 will go out of bounds
+        if c != 20:
+            # check upper right for settlement
+            if board[r - 1][c + 1] == R_SETTLEMENT or board[r - 1][c + 1] == R_CITY:
+                return True
+
+            # check lower right for settlement
+            if board[r + 1][c + 1] == R_SETTLEMENT or board[r + 1][c + 1] == R_CITY:
+                return True
+
+            # check up and right for road
+            # row 1 will go out of bounds
+            if r != 1:
+                if board[r - 2][c + 1] == R_ROAD:
+                    return True
+
+            # check down and right for road
+            # row 21 will go out of bounds
+            if r != 21:
+                if board[r + 2][c + 1] == R_ROAD:
+                    return True
+
+            # checks right for road
+            # column 19 will go out of bounds
+            if c != 19:
+                if board[r][c + 2] == R_ROAD:
+                    return True
+
+    # player 2
+    else:
+        # check above for settlement
+        if board[r - 1][c] == B_SETTLEMENT or board[r - 1][c] == B_CITY:
+            return True
+
+        # check below for settlement
+        elif board[r + 1][c] == B_SETTLEMENT or board[r + 1][c] == B_CITY:
+            return True
+
+        # check left for settlement and road
+        # column 0 will go out of bounds
+        if c != 0:
+            # check upper left for settlement
+            if board[r - 1][c - 1] == B_SETTLEMENT or board[r - 1][c - 1] == B_CITY:
+                return True
+
+            # check lower left for settlement
+            if board[r + 1][c - 1] == B_SETTLEMENT or board[r + 1][c - 1] == B_CITY:
+                return True
+
+            # check up and left for road
+            # row 1 will go out of bounds
+            if r != 1:
+                if board[r + 2][c - 1] == B_ROAD:
+                    return True
+
+            # check down and left for road
+            # row 21 will go out of bounds
+            if r != 21:
+                if board[r - 2][c - 1] == B_ROAD:
+                    return True
+
+            # check left for road
+            # column 1 will go out of bounds
+            if c != 1:
+                if board[r][c - 2] == B_ROAD:
+                    return True
+
+        # check right for roads and settlements
+        # column 20 will go out of bounds
+        if c != 20:
+            # check upper right for settlement
+            if board[r - 1][c + 1] == B_SETTLEMENT or board[r - 1][c + 1] == B_CITY:
+                return True
+
+            # check lower right for settlement
+            if board[r + 1][c + 1] == B_SETTLEMENT or board[r + 1][c + 1] == B_CITY:
+                return True
+
+            # check up and right for road
+            # row 1 will go out of bounds
+            if r != 1:
+                if board[r - 2][c + 1] == B_ROAD:
+                    return True
+
+            # check down and right for road
+            # row 21 will go out of bounds
+            if r != 21:
+                if board[r + 2][c + 1] == B_ROAD:
+                    return True
+
+            # checks right for road
+            # column 19 will go out of bounds
+            if c != 19:
+                if board[r][c + 2] == B_ROAD:
+                    return True
+
+    # not connected to anything
+    return False
 
 
 def placeSettlement(turn, board, screen):
